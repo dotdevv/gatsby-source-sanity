@@ -44,6 +44,39 @@ test('resolves Sanity references', () => {
   })
 })
 
+test('resolves Sanity references, with return fields', () => {
+  const _id = 'abc1234'
+  const getNode = (id: string) =>
+    id === '-abc1234'
+      ? {
+          _id,
+          id: _id,
+          bar: 'baz',
+          parent: `someParent2`,
+          internal: {
+            owner: `asdf`,
+            type: `asdf`,
+            contentDigest: `asdf`,
+          },
+          children: [],
+        }
+      : noNode
+
+  expect(
+    resolveReferences(
+      {foo: {_ref: _id}},
+      {createNodeId, getNode},
+      {maxDepth: 5, overlayDrafts: true, returnFields: 'bar,parent'},
+    ),
+  ).toEqual({
+    foo: {
+      _id,
+      bar: 'baz',
+      parent: `someParent2`,
+    },
+  })
+})
+
 test('uses non-draft if overlayDrafts is set to true', () => {
   const _id = 'abc123'
   const getNode = (id: string) =>

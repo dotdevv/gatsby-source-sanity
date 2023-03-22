@@ -1,5 +1,5 @@
 {
-  "name": "gatsby-source-sanity",
+  "name": "@dotdev/gatsby-source-sanity",
   "version": "7.6.3",
   "description": "Gatsby source plugin for building websites using Sanity.io as a backend.",
   "keywords": [

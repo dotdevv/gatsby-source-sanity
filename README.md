@@ -37,10 +37,10 @@ Get up and running in minutes with a fully configured starter project:
 From the command line, use npm (node package manager) to install the plugin:
 
 ```console
-npm install gatsby-source-sanity gatsby-plugin-image
+npm install @dotdev/gatsby-source-sanity gatsby-plugin-image
 ```
 
-⚠️ Warning: If using Gatsby v4, make sure you've installed version 7.1.0 or higher. The plugin has a dependency on `gatsby-plugin-image` which itself has dependencies. Check [`gatsby-plugin-image` README](https://www.gatsbyjs.com/plugins/gatsby-plugin-image/#installation) for instructions.
+⚠️ Warning: If using Gatsby v4, make sure you've installed version 7.1.0 or higher. The plugin has a dependency on `gatsby-plugin-image` which itself has dependencies. Check [`gatsb-plugin-image` README](https://www.gatsbyjs.com/plugins/gatsby-plugin-image/#installation) for instructions.
 
 In the `gatsby-config.js` file in the Gatsby project's root directory, add the plugin configuration inside of the `plugins` section:
 
@@ -49,7 +49,7 @@ module.exports = {
   // ...
   plugins: [
     {
-      resolve: `gatsby-source-sanity`,
+      resolve: `@dotdev/gatsby-source-sanity`,
       options: {
         projectId: `abc123`,
         dataset: `blog`,
@@ -150,7 +150,7 @@ If you are using the raw fields, or simply have an image asset ID you would like
 
 ```jsx
 import {GatsbyImage} from 'gatsby-plugin-image'
-import {getGatsbyImageData} from 'gatsby-source-sanity'
+import {getGatsbyImageData} from '@dotdev/gatsby-source-sanity'
 
 const sanityConfig = {projectId: 'abc123', dataset: 'blog'}
 const imageAssetId = 'image-488e172a7283400a57e57ffa5762ac3bd837b2ee-4240x2832-jpg'
@@ -229,7 +229,7 @@ Quite often, you'll want to replace reference fields (eg `_ref: '<documentId>'`)
   allSanityProject {
     edges {
       node {
-        _rawTasks(resolveReferences: {maxDepth: 5})
+        _rawTasks(resolveReferences: {maxDepth: 5, returnFields: ["title"]})
       }
     }
   }
@@ -265,7 +265,7 @@ const previewEnabled = (process.env.GATSBY_IS_PREVIEW || "false").toLowerCase() 
 module.exports = {
   // ...
   plugins: [
-    resolve: "gatsby-source-sanity",
+    resolve: "@dotdev/gatsby-source-sanity",
     options: {
       // ...
       watchMode: !isProd, // watchMode only in dev mode
@@ -327,7 +327,7 @@ module.exports = {
   // ...
   plugins: [
     {
-      resolve: 'gatsby-source-sanity',
+      resolve: '@dotdev/gatsby-source-sanity',
       options: {
         projectId: process.env.SANITY_PROJECT_ID,
         dataset: process.env.SANITY_DATASET,

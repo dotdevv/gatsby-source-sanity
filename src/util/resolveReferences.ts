@@ -5,11 +5,13 @@ import {safeId, unprefixId} from './documentIds'
 const defaultResolveOptions: ResolveReferencesOptions = {
   maxDepth: 5,
   overlayDrafts: false,
+  returnFields: '',
 }
 
 interface ResolveReferencesOptions {
   maxDepth: number
   overlayDrafts: boolean
+  returnFields: string
 }
 
 // NOTE: This is now a public API and should be treated as such
@@ -22,6 +24,14 @@ export function resolveReferences(
   const {createNodeId, getNode} = context
   const resolveOptions = {...defaultResolveOptions, ...options}
   const {overlayDrafts, maxDepth} = resolveOptions
+
+  const resolveReturnFields = (node: any) => {
+    if (!resolveOptions.returnFields?.length) return node
+    return ['_id', ...resolveOptions.returnFields.split(',')].reduce((acc, key) => {
+      if (node?.[key] !== undefined) return {...acc, [key]: node[key]}
+      return acc
+    }, {})
+  }
 
   if (Array.isArray(obj)) {
     return currentDepth <= maxDepth
@@ -52,11 +62,14 @@ export function resolveReferences(
     }
 
     return node && currentDepth <= maxDepth
-      ? resolveReferences(remapRawFields(node), context, resolveOptions, currentDepth + 1)
+      ? resolveReturnFields(
+          resolveReferences(remapRawFields(node), context, resolveOptions, currentDepth + 1),
+        )
       : obj
   }
 
   const initial: {[key: string]: any} = {}
+
   return Object.keys(obj).reduce((acc, key) => {
     const isRawDataField = key.startsWith('_rawData')
     const value = resolveReferences(obj[key], context, resolveOptions, currentDepth + 1)

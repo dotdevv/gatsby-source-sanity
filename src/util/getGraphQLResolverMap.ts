@@ -62,6 +62,7 @@ function getRawResolver(
     return args.resolveReferences
       ? resolveReferences(value, context, {
           maxDepth: args.resolveReferences.maxDepth,
+          returnFields: args.resolveReferences.returnFields,
           overlayDrafts: pluginConfig.overlayDrafts,
         })
       : value
