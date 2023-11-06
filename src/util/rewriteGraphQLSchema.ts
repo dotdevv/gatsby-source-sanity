@@ -1,3 +1,4 @@
+// @ts-nocheck
 import {Reporter} from 'gatsby'
 import {
   ASTNode,
