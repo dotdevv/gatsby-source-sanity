@@ -21,7 +21,7 @@ export default function getSyncWithGatsby(props: {
 }): SyncWithGatsby {
   const {documents, gatsbyNodes, processingOptions, args} = props
   const {typeMap, overlayDrafts} = processingOptions
-  const {reporter, actions} = args
+  const {actions} = args
   const {createNode, deleteNode} = actions
 
   return (id, updatedDocument) => {
